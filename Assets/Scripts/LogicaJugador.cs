@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,13 +9,20 @@ public class LogicaJugador : MonoBehaviour
     public Vida vida;
     public bool Vida0 = false;
     public float movimiento = 1f;
-    public float rotacion = 500f;
+    public float rotacion = 200f;
     private Animator animadorRender;
 
 
     public GameObject bala;
     public Transform puntoDisparo;
+    
+    [Header("Referencia Sonidos")]
+    public AudioClip SonDisparo;
+    protected AudioSource audioSource;
 
+    [Header("Atributos de arma")]
+    public int balasEnCartucho = 10;
+    public float daño = 100f;
     public float fuerzaDisparo = 1500f;
     public float ratioDisparo = 0.5f;
     public float velocidadBala = 20;
@@ -26,18 +34,21 @@ public class LogicaJugador : MonoBehaviour
     {
         vida = GetComponent<Vida>();
         animadorRender = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         revisarVida();
-        mover();
+          mover();
         rotar();
         if (Input.GetKey(KeyCode.Space))
         {
             animadorRender.SetTrigger("Desenfunda");
             Disparar();
+            getBalas();
         }
     }
 
@@ -51,7 +62,31 @@ public class LogicaJugador : MonoBehaviour
             newBala = Instantiate(bala, puntoDisparo.position, Quaternion.identity);
             newBala.GetComponent<Rigidbody>().AddForce(puntoDisparo.forward * fuerzaDisparo);
             tiempoDisparo = Time.time + 1;
+            audioSource.PlayOneShot(SonDisparo);
+            balasEnCartucho--;
+            DisparoDirecto();
             Destroy(newBala, 2);
+
+        }
+    }
+
+    private void DisparoDirecto()
+    {
+        RaycastHit hit;  //Devuelve true si existe toque con alguno de los  colisionadores de la escena
+        if (Physics.Raycast(puntoDisparo.position, puntoDisparo.forward, out hit))
+        {
+            if (hit.transform.CompareTag("Enemigo"))
+            {
+                Vida vida = hit.transform.GetComponent<Vida>();
+                if (vida == null)
+                {
+                    throw new System.Exception("No se encontro el componente vida del enemigo");
+                }
+                else
+                {
+                    vida.recibirDano(daño);
+                }
+            }
         }
     }
 
@@ -59,13 +94,11 @@ public class LogicaJugador : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-
             transform.Rotate(new Vector3(0f, -rotacion, 0f) * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-
-            transform.Rotate(new Vector3(0f, rotacion, 0f) * Time.deltaTime);
+           transform.Rotate(new Vector3(0f, rotacion, 0f) * Time.deltaTime);
         }
     }
 
@@ -73,13 +106,11 @@ public class LogicaJugador : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            animadorRender.SetTrigger("Camina");
-            transform.Translate(Vector3.forward * movimiento * Time.deltaTime);
+           transform.Translate(Vector3.forward * movimiento * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            animadorRender.SetTrigger("Camina");
-            transform.Translate(Vector3.back * movimiento * Time.deltaTime);
+           transform.Translate(Vector3.back * movimiento * Time.deltaTime);
         }
     }
 
@@ -89,11 +120,17 @@ public class LogicaJugador : MonoBehaviour
         if (vida.valor <= 0)
         {
             Vida0 = true;
+            Destroy(this);
         }
     }
-
+    /*
     void reiniciarJuego()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    */
+    public int getBalas()
+    {
+        return balasEnCartucho;
     }
 }
