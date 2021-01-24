@@ -128,12 +128,12 @@ public class LogicaJugador : MonoBehaviour
             Destroy(this);
         }
     }
-    /*
-    void reiniciarJuego()
+    
+    public void reiniciarJuego()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    */
+    
     public int getBalas()
     {
         return balasEnCartucho;

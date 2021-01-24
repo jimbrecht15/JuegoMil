@@ -7,6 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class FinJuego : MonoBehaviour
 {
+    public LogicaJugador jugador;
+
+    void Start()
+    {
+        jugador = GetComponent<LogicaJugador>();
+        
+    }
+
     public void Setup()
     {
         gameObject.SetActive(true);
@@ -14,6 +22,8 @@ public class FinJuego : MonoBehaviour
 
     public void botonReiniciar()
     {
-        SceneManager.LoadScene(1);
+        //Debug.Log("Text: Tocaste Boton");
+        SceneManager.LoadScene("_Complete_Game");
+        jugador.reiniciarJuego();
     }
 }
