@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class LogicaJugador : MonoBehaviour
@@ -12,9 +13,9 @@ public class LogicaJugador : MonoBehaviour
     public float rotacion = 200f;
     private Animator animadorRender;
 
-
     public GameObject bala;
     public Transform puntoDisparo;
+    public FinJuego finJuego;
     
     [Header("Referencia Sonidos")]
     public AudioClip SonDisparo;
@@ -123,6 +124,7 @@ public class LogicaJugador : MonoBehaviour
         {
             Vida0 = true;
             animadorRender.SetTrigger("Muere");
+            finJuego.Setup();
             Destroy(this);
         }
     }
