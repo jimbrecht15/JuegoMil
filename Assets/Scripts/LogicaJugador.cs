@@ -147,6 +147,7 @@ public class LogicaJugador : MonoBehaviour
     public int getDestruidos()
     {
         if (destruidos == 3) {
+            Destroy(this);
             ganas.Setup();
         }
         
