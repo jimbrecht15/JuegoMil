@@ -23,7 +23,7 @@ public class FinJuego : MonoBehaviour
     public void botonReiniciar()
     {
         //Debug.Log("Text: Tocaste Boton");
-        SceneManager.LoadScene("_Complete_Game");
+        SceneManager.LoadScene("_Complete-Game");
         jugador.reiniciarJuego();
     }
 }
