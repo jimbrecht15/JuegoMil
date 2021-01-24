@@ -26,7 +26,7 @@ public class LogicaJugador : MonoBehaviour
     public float fuerzaDisparo = 1500f;
     public float ratioDisparo = 0.5f;
     public float velocidadBala = 20;
-
+    public int destruidos = 0;
     public float tiempoDisparo = 2;
 
     // Start is called before the first frame update
@@ -35,7 +35,7 @@ public class LogicaJugador : MonoBehaviour
         vida = GetComponent<Vida>();
         animadorRender = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-
+        
     }
 
     // Update is called once per frame
@@ -49,6 +49,7 @@ public class LogicaJugador : MonoBehaviour
             animadorRender.SetTrigger("Desenfunda");
             Disparar();
             getBalas();
+            getDestruidos();
         }
     }
 
@@ -85,6 +86,7 @@ public class LogicaJugador : MonoBehaviour
                 else
                 {
                     vida.recibirDano(daño);
+                    destruidos++;
                 }
             }
         }
@@ -120,6 +122,7 @@ public class LogicaJugador : MonoBehaviour
         if (vida.valor <= 0)
         {
             Vida0 = true;
+            animadorRender.SetTrigger("Muere");
             Destroy(this);
         }
     }
@@ -133,4 +136,10 @@ public class LogicaJugador : MonoBehaviour
     {
         return balasEnCartucho;
     }
+
+    public int getDestruidos()
+    {
+        return destruidos;
+    }
+
 }

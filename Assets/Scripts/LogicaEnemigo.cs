@@ -12,12 +12,13 @@ public class LogicaEnemigo : MonoBehaviour
     private Collider collider;
     private Vida vidaJugador;
     private LogicaJugador logicaJugador;
+    
     public bool Vida0 = false;
     public bool estaAtacando = false;
     public float speed = 1.0f;
     public float angularSpeed = 120;
     public float dano = 25;
-
+    
     public bool mirando;
 
 

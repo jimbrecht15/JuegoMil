@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Vida : MonoBehaviour
 {
     public float valor = 100;
+    public int enemigo = 0;
 
 
     // Start is called before the first frame update
@@ -16,8 +18,9 @@ public class Vida : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+      
     }
+
 
     public void recibirDano(float dano)
     {
@@ -25,8 +28,10 @@ public class Vida : MonoBehaviour
         if (valor < 0)
         {
             valor = 0;
-
+            
         }
     }
+
+
 }
 
