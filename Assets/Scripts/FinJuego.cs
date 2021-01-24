@@ -12,7 +12,6 @@ public class FinJuego : MonoBehaviour
     void Start()
     {
         jugador = GetComponent<LogicaJugador>();
-        
     }
 
     public void Setup()
