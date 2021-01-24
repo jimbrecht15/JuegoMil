@@ -1,17 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-
-public class FinJuego : MonoBehaviour
+public class Ganaste : MonoBehaviour
 {
-    public LogicaJugador jugador;
-
     void Start()
     {
-        jugador = GetComponent<LogicaJugador>();
+       
     }
 
     public void Setup()
@@ -23,6 +19,6 @@ public class FinJuego : MonoBehaviour
     {
         //Debug.Log("Text: Tocaste Boton");
         SceneManager.LoadScene("_Complete-Game");
-        //jugador.reiniciarJuego();
+      
     }
 }

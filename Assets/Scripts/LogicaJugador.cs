@@ -16,6 +16,7 @@ public class LogicaJugador : MonoBehaviour
     public GameObject bala;
     public Transform puntoDisparo;
     public FinJuego finJuego;
+    public Ganaste ganas;
     
     [Header("Referencia Sonidos")]
     public AudioClip SonDisparo;
@@ -43,13 +44,13 @@ public class LogicaJugador : MonoBehaviour
     void Update()
     {
         revisarVida();
-          mover();
+        mover();
         rotar();
+        getBalas();
         if (Input.GetKey(KeyCode.Space))
         {
             animadorRender.SetTrigger("Desenfunda");
             Disparar();
-            getBalas();
             getDestruidos();
         }
     }
@@ -58,7 +59,7 @@ public class LogicaJugador : MonoBehaviour
     {
         animadorRender.SetTrigger("Dispara");
 
-        if (Time.time > tiempoDisparo)
+        if (Time.time > tiempoDisparo && balasEnCartucho > 0)
         {
             GameObject newBala;
             newBala = Instantiate(bala, puntoDisparo.position, Quaternion.identity);
@@ -122,25 +123,33 @@ public class LogicaJugador : MonoBehaviour
         if (Vida0) return; //si vida0 es true return
         if (vida.valor <= 0)
         {
-            Vida0 = true;
-            animadorRender.SetTrigger("Muere");
-            finJuego.Setup();
-            Destroy(this);
+            muere();
         }
     }
-    
-    public void reiniciarJuego()
+
+    private void muere()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Vida0 = true;
+        animadorRender.SetTrigger("Muere");
+        finJuego.Setup();
+        Destroy(this);
     }
-    
+        
     public int getBalas()
     {
+        if (balasEnCartucho == 0)
+        {
+            muere();
+        }
         return balasEnCartucho;
     }
 
     public int getDestruidos()
     {
+        if (destruidos == 3) {
+            ganas.Setup();
+        }
+        
         return destruidos;
     }
 
